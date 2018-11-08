@@ -14,11 +14,13 @@ class ViewController: UIViewController {
     var previousNumbers:Double = 0;
     var performingMath:Bool = true;
     var operators:Int = 0
+    var del:Bool = true
     
     @IBOutlet weak var screen: UILabel!
     @IBOutlet weak var preScreen: UILabel!
     
     func displayPreScreen(){
+        del = true
         if operators >= 14 && operators <= 17{
             preScreen.text = String(previousNumbers)
             switch operators{
@@ -82,31 +84,17 @@ class ViewController: UIViewController {
     
     @IBAction func operation(_ sender: UIButton) {
         if sender.tag >= 14 && sender.tag <= 17{
-            
+            del = false
             performingMath = true
             calc()
             operators = sender.tag
             previousNumbers = numberOfScreen
             numberOfScreen = 0
-            switch sender.tag{
-            case 14:    //divide        -- button [/]
-                screen.text = "/"
-                break
-            case 15:    //multiply      -- button [x]
-                screen.text = "x"
-                break
-            case 16:    //minus         -- button [-]
-                screen.text = "-"
-                break
-            case 17:    //plus          -- button [+]
-                screen.text = "+"
-                break
-            default:
-                break
-            }
+            screen.text = "0"
             displayPreScreen()
         }
         else if sender.tag == 18{   //equal         -- button [=]
+            del = false
             preScreen.text = ""
             performingMath = true
             calc()
@@ -115,6 +103,7 @@ class ViewController: UIViewController {
             operators = 0
         }
         else if sender.tag == 12{   //clear -- button [C]
+            del = false
             preScreen.text = ""
             numberOfScreen = 0
             previousNumbers = 0
@@ -123,8 +112,18 @@ class ViewController: UIViewController {
             screen.text = "0"
         }
         else if sender.tag == 11{   //clear memory temple   -- button [CE]
+            del = false
             performingMath = true
             screen.text = "0"
+        }
+        else if sender.tag == 13{   // delete number last
+            if del == true{
+                screen.text = String(screen.text!.dropLast())
+                numberOfScreen = Double(screen.text!)!
+            }
+            if screen.text == ""{
+                screen.text = "0"
+            }
         }
     }
     
