@@ -119,7 +119,11 @@ class ViewController: UIViewController {
             numberOfScreen = 0
             previousNumbers = 0
             operators = 0
-            performingMath = false
+            performingMath = true
+            screen.text = "0"
+        }
+        else if sender.tag == 11{   //clear memory temple   -- button [CE]
+            performingMath = true
             screen.text = "0"
         }
     }
